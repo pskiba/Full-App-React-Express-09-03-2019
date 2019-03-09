@@ -22,7 +22,7 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    posts: {
+    postsId: {
         type: [],
         required: true
     }
