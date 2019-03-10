@@ -25,6 +25,10 @@ const userSchema = mongoose.Schema({
     postsId: {
         type: [],
         required: true
+    },
+    date: {
+        type: Date,
+        required: true
     }
 });
 
