@@ -1,10 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const postModel = require('../../mongoDB/postModel');
+const {checkAuth} = require('../middlewares/checkAuth');
 
 const postRouter = express.Router();
 
-postRouter.get('/', (req, res, next) => {
+postRouter.get('/', checkAuth, (req, res, next) => {
     postModel.find()
         .then((records) => {
             res.status(200).json({
@@ -18,7 +19,7 @@ postRouter.get('/', (req, res, next) => {
         })
 });
 
-postRouter.get('/:id', (req, res, next) => {
+postRouter.get('/:id', checkAuth, (req, res, next) => {
     const id = req.params.id;
     postModel.findById(id)
         .then((record) => {
@@ -39,10 +40,12 @@ postRouter.get('/:id', (req, res, next) => {
         });
 });
 
-postRouter.post('/', (req, res, next) => {
+postRouter.post('/', checkAuth, (req, res, next) => {
     const post = new postModel({
-        ...req.body,
         _id: new mongoose.Types.ObjectId,
+        authorId: req.body.authorId,
+        title: req.body.title,
+        content: req.body.content,
         date: new Date()
     });
     post.save()
@@ -58,7 +61,7 @@ postRouter.post('/', (req, res, next) => {
         });
 });
 
-postRouter.patch('/:id', (req, res, next) => {
+postRouter.patch('/:id', checkAuth, (req, res, next) => {
     const id = req.params.id;
     const toUpdate = req.body;
     postModel.update({_id: id}, {$set: toUpdate})
@@ -74,7 +77,7 @@ postRouter.patch('/:id', (req, res, next) => {
         });
 });
 
-postRouter.delete('/:id', (req, res, next) => {
+postRouter.delete('/:id', checkAuth, (req, res, next) => {
     const id = req.params.id;
     postModel.findById(id)
         .then((resold) => {
