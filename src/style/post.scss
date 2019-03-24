@@ -1,0 +1,22 @@
+.post {
+    .author {
+        font-size: 11px;
+        line-height: 13px;
+        border-right: 1px dashed #e0e0e0;
+
+        .create-data {
+            padding-bottom: 8px;
+        }
+
+        .edit-data {
+            padding-top: 8px;
+            border-top: 1px dashed #e0e0e0
+        }
+
+        .topic-action {
+            padding-top: 10px;
+        }
+    }
+
+
+}

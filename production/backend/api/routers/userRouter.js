@@ -3,18 +3,18 @@ const mongoose = require('mongoose');
 const userModel = require('../../mongoDB/userModel');
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const {checkAuthAdmin, JWT_KEY} = require('../middlewares/checkAuthAdmin');
+const {checkAuthAdmin, ADMIN_JWT_KEY} = require('../middlewares/checkAuthAdmin');
+const {checkAuthUser, USER_JWT_KEY} = require('../middlewares/checkAuth');
 
 const userRouter = express.Router();
 
-userRouter.get('/', checkAuthAdmin, (req, res, next) => {
+userRouter.get('/', (req, res, next) => {
     userModel.find()
         .then((records) => {
             const users = records.map((user) => {
                 return {
                     _id: user._id,
-                    firstName: user.firstName,
-                    lastName: user.lastName,
+                    nick: user.nick,
                     email: user.email,
                     date: user.date
                 };
@@ -43,31 +43,38 @@ userRouter.get('/:id', checkAuthAdmin,  (req, res, next) => {
 });
 
 userRouter.post('/signup', (req, res, next) => {
-    userModel.findOne({email: req.body.email})
+    userModel.find()
         .then((record) => {
-            if(record) {
-                res.status(409).json({message: 'login exist'})
-            } else {
-
-                bcryptjs.hash(req.body.password, 10, (err, hash) => {
-                    if(err) {
-                        res.status(500).json({error: err});
-                    } else {
-                        const user = new userModel({
-                            _id: new mongoose.Types.ObjectId(),
-                            firstName: req.body.firstName,
-                            lastName: req.body.lastName,
-                            email: req.body.email,
-                            password: hash,
-                            date: new Date()
-                        });
-                        user.save()
-                            .then((record) => {
-                                res.status(201).json({message: 'user was sign up'});
-                            })
-                    }
-                });
-            }
+            const admin = record && !record.length;
+            userModel.findOne({email: req.body.email})
+                .then((recordE) => {
+                    userModel.findOne({email: req.body.email})
+                        .then((recordN) => {
+                            if(recordE || recordN) {
+                                res.status(409).json({message: 'nick or email exist'})
+                            } else {
+                                bcryptjs.hash(req.body.password, 10, (err, hash) => {
+                                    if(err) {
+                                        res.status(500).json({error: err});
+                                    } else {
+                                        console.log(admin);
+                                        const user = new userModel({
+                                            _id: new mongoose.Types.ObjectId(),
+                                            nick: req.body.nick,
+                                            email: req.body.email,
+                                            password: hash,
+                                            admin: admin,
+                                            date: new Date().getTime()
+                                        });
+                                        user.save()
+                                            .then((record) => {
+                                                res.status(201).json({message: 'user was sign up'});
+                                            })
+                                    }
+                                });
+                            }
+                        })
+                })
         })
         .catch((err) => {
             res.status(500).json({error: err})
@@ -89,10 +96,11 @@ userRouter.post('/login', (req, res, next) => {
                     } else {
                         const token = jwt.sign(
                             {
-                                email: record.email,
-                                userId: record._id
+                                nick: record.nick,
+                                userId: record._id,
+                                admin: record.admin
                             },
-                            JWT_KEY,
+                            USER_JWT_KEY,
                             {
                                 expiresIn: '1h'
                             }
@@ -100,12 +108,13 @@ userRouter.post('/login', (req, res, next) => {
                         res.status(201).json({
                             user: {
                                 _id: record._id,
-                                firstName: record.firstName,
-                                lastName: record.lastName,
+                                nick: record.nick,
                                 email: record.email,
                                 date: record.date,
+                                admin: record.admin,
                                 token: token
-                            }
+                            },
+                            message: 'login'
                         });
                     }
                 });

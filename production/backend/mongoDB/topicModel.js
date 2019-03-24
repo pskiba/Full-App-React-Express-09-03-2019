@@ -30,33 +30,28 @@ const editedSchema = mongoose.Schema({
     }
 });
 
-const postSchema = mongoose.Schema({
+const topicSchema = mongoose.Schema({
     _id: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true
+        require: true
     },
-    topicId: {
+    title: {
         type: String,
-        required: true
+        require: true
+    },
+    date: {
+        type: Number,
+        require: true
+    },
+    edited: {
+        type: editedSchema
     },
     user: {
         type: userSchema,
         required: true
-    },
-    content: {
-        type: String,
-        required: false
-    },
-    date: {
-        type: Number,
-        required: true
-    },
-    edited: {
-        type: editedSchema
     }
-
 });
 
-const postModel = mongoose.model('post', postSchema);
+const topicModel = mongoose.model('topic', topicSchema);
 
-module.exports = postModel;
+module.exports = topicModel;

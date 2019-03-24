@@ -4,12 +4,15 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const config = () => {
     return {
         entry: {
-           path: path.join(__dirname, 'src', 'index.js')
+           path: path.resolve(__dirname, 'src', 'index.js')
         },
         output: {
-            path: path.join(__dirname, 'production', 'dist'),
-            filename: '[name].js'
+            publicPath: '/'
         },
+        // output: {
+        //     path: path.resolve(__dirname, 'production', 'dist'),
+        //     filename: '[name].js'
+        // },
         module: {
             rules: [
                 {
@@ -24,7 +27,7 @@ const config = () => {
                     }
                 },
                 {
-                    test: /\.sass$/,
+                    test: /\.s[a,c]ss$/,
                     exclude: /node_modules/,
                     use: [
                         {
@@ -57,7 +60,7 @@ const config = () => {
 
         plugins: [
             new HtmlWebpackPlugin({
-                template: './src/index.html'
+                template: path.join(__dirname, 'src', 'index.html')
             })
         ]
 

@@ -1,11 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const postModel = require('../../mongoDB/postModel');
-const {checkAuth} = require('../middlewares/checkAuth');
+const topicModel = require('../../mongoDB/topicModel');
+const {checkAuth, verifyAdminOrAuthorPost} = require('../middlewares/checkAuth');
 
 const postRouter = express.Router();
 
-postRouter.get('/', checkAuth, (req, res, next) => {
+postRouter.get('/', (req, res, next) => {
     postModel.find()
         .then((records) => {
             res.status(200).json({
@@ -18,8 +19,27 @@ postRouter.get('/', checkAuth, (req, res, next) => {
             });
         })
 });
+postRouter.get('/topic/:title', (req, res, next) => {
+    topicModel.findOne({title: req.params.title})
+        .then((record) => {
+            if(record && record._id) {
+                postModel.find({topicId: record._id})
+                    .then((records) => {
+                        res.status(200).json({
+                            posts: records
+                        });
+                    })
+            }
 
-postRouter.get('/:id', checkAuth, (req, res, next) => {
+        })
+        .catch((err) => {
+            res.status(500).json({
+                error: err
+            });
+        })
+});
+
+postRouter.get('/:id', (req, res, next) => {
     const id = req.params.id;
     postModel.findById(id)
         .then((record) => {
@@ -40,19 +60,25 @@ postRouter.get('/:id', checkAuth, (req, res, next) => {
         });
 });
 
-postRouter.post('/', checkAuth, (req, res, next) => {
-    const post = new postModel({
-        _id: new mongoose.Types.ObjectId,
-        authorId: req.body.authorId,
-        title: req.body.title,
-        content: req.body.content,
-        date: new Date()
-    });
-    post.save()
+postRouter.post('/', (req, res, next) => {
+    topicModel.findOne({title: req.body.topic})
         .then((record) => {
-            res.status(201).json({
-                post: record
-            });
+            if(record && record._id) {
+                const post = new postModel({
+                    _id: new mongoose.Types.ObjectId,
+                    date: new Date().getTime(),
+                    title: req.body.title,
+                    content: req.body.content,
+                    topicId: record._id,
+                    user: req.body.user
+                });
+                post.save()
+                    .then((record) => {
+                        res.status(201).json({
+                            post: record
+                        });
+                    })
+            }
         })
         .catch((err) => {
             res.status(500).json({
@@ -61,14 +87,27 @@ postRouter.post('/', checkAuth, (req, res, next) => {
         });
 });
 
-postRouter.patch('/:id', checkAuth, (req, res, next) => {
+postRouter.patch('/:id',checkAuth, verifyAdminOrAuthorPost, (req, res, next) => {
     const id = req.params.id;
-    const toUpdate = req.body;
-    postModel.update({_id: id}, {$set: toUpdate})
+    const toUpdate = {
+        content: req.body.content,
+        edited: {
+            _id: req.userData._id,
+            nick: req.userData.nick,
+            date: new Date().getTime()
+        }
+    };
+    console.log(toUpdate);
+    postModel.findOneAndUpdate({_id: id}, {$set: toUpdate})
         .then((record) => {
-            res.status(201).json({
-                post: record
-            });
+            if(record._id) {
+                postModel.findById(record._id)
+                    .then((record) => {
+                        res.status(201).json({
+                            post: record
+                        });
+                    });
+            }
         })
         .catch((err) => {
             res.status(500).json({
@@ -77,9 +116,10 @@ postRouter.patch('/:id', checkAuth, (req, res, next) => {
         });
 });
 
-postRouter.delete('/:id', checkAuth, (req, res, next) => {
+postRouter.delete('/:id', checkAuth, verifyAdminOrAuthorPost, (req, res, next) => {
     const id = req.params.id;
-    postModel.findById(id)
+
+    postModel.findByIdAndRemove(id)
         .then((resold) => {
             res.status(201).json({
                 resold: resold
@@ -90,6 +130,7 @@ postRouter.delete('/:id', checkAuth, (req, res, next) => {
                 error: err
             });
         });
+
 });
 
 module.exports = postRouter;

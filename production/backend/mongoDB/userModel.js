@@ -5,11 +5,7 @@ const userSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true
     },
-    firstName: {
-        type: String,
-        required: true,
-    },
-    lastName: {
+    nick: {
         type: String,
         required: true
     },
@@ -23,7 +19,11 @@ const userSchema = mongoose.Schema({
         required: true
     },
     date: {
-        type: Date,
+        type: Number,
+        required: true
+    },
+    admin: {
+        type: Boolean,
         required: true
     }
 });
