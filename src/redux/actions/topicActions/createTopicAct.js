@@ -1,6 +1,6 @@
 const createTopicAct = (dispatch, data) => {
     const authorization = sessionStorage.getItem('token') ? sessionStorage.getItem('token') : '';
-    fetch('./api/topic/', {
+    fetch(window.location.origin + '/api/topic/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

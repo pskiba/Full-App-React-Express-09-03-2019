@@ -1,5 +1,5 @@
 const logInAct = (dispatch, data) => {
-    fetch('./api/user/login', {
+    fetch(window.location.origin + '/api/user/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

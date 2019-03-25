@@ -1,5 +1,5 @@
 const signUpAct = (dispatch, data) => {
-    fetch('./api/user/signup', {
+    fetch(window.location.origin + '/api/user/signup', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

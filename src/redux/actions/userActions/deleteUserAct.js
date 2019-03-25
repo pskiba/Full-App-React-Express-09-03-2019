@@ -1,6 +1,6 @@
 const deleteUserAct = (dispatch, id) => {
     const authorization = sessionStorage.getItem('token') ? sessionStorage.getItem('token') : '';
-    fetch('./api/user/' + id, {
+    fetch(window.location.origin + '/api/user/' + id, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

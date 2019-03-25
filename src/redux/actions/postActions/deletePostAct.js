@@ -1,6 +1,6 @@
 const deletePostAct = (dispatch, data) => {
     const authorization = sessionStorage.getItem('token') ? sessionStorage.getItem('token') : '';
-    fetch('./api/post/' + data._id, {
+    fetch(window.location.origin + '/api/post/' + data._id, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
