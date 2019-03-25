@@ -3,12 +3,12 @@ const mongoose = require('mongoose');
 const userModel = require('../../mongoDB/userModel');
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const {checkAuthAdmin, ADMIN_JWT_KEY} = require('../middlewares/checkAuthAdmin');
-const {checkAuthUser, USER_JWT_KEY} = require('../middlewares/checkAuth');
+
+const {checkAuth, verifyAdmin, USER_JWT_KEY} = require('../middlewares/checkAuth');
 
 const userRouter = express.Router();
 
-userRouter.get('/', (req, res, next) => {
+userRouter.get('/', checkAuth, verifyAdmin, (req, res, next) => {
     userModel.find()
         .then((records) => {
             const users = records.map((user) => {
@@ -24,22 +24,6 @@ userRouter.get('/', (req, res, next) => {
         .catch((err) => {
             res.status(500).json({error: err});
         })
-});
-
-userRouter.get('/:id', checkAuthAdmin,  (req, res, next) => {
-    const id = req.params.id;
-    userModel.findById(id)
-        .then((record) => {
-            if(record) {
-                delete record.password;
-                res.status(200).json({user: record});
-            } else {
-                res.status(404).json({message: 'no found'});
-            }
-        })
-        .catch((err) => {
-            res.status(500).json({error: err});
-        });
 });
 
 userRouter.post('/signup', (req, res, next) => {
@@ -122,15 +106,18 @@ userRouter.post('/login', (req, res, next) => {
         });
 });
 
-userRouter.delete('/:id', checkAuthAdmin, (req, res, next) => {
+userRouter.delete('/:id', checkAuth, verifyAdmin, (req, res, next) => {
     const id = req.params.id;
-    userModel.findByIdAndRemove(id)
-        .then((record) => {
-            res.status(201).json({message: 'user was removed'});
-        })
-        .catch((err) => {
-            res.status(500).json({error: err});
-        });
+    if(id !== req.userData._id) {
+        userModel.findByIdAndRemove(id)
+            .then((record) => {
+                res.status(201).json({message: 'user was removed'});
+            })
+            .catch((err) => {
+                res.status(500).json({error: err});
+            });
+    }
+
 });
 
 module.exports = userRouter;

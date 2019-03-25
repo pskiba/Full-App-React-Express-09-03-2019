@@ -45,6 +45,7 @@ class TopicsList extends Component {
         const topicCreatorHTML = this.props.topicCreatorIsOpen ? <TopicCreator /> : '';
         return (
             <div className="container">
+                <h5 className="center">TOPICS</h5>
                 {topicCreatorHTML}
                 <ul className="collection">
                     <TopicBare topics={topics} user={this.props.user} />

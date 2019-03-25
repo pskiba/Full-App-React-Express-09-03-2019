@@ -10,8 +10,9 @@ const updateTopicAct = (dispatch, data) => {
         })
         .then((response) => response.json())
         .then((response) => {
-            console.log(response);
-            dispatch({type: 'UPDATE_TOPIC', payload: response.topic})
+            if(response && response.topic) {
+                dispatch({type: 'UPDATE_TOPIC', payload: response.topic});
+            }
         });
 };
 

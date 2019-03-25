@@ -3,13 +3,17 @@ const initState = {
     signUpStatus: null,
     logInStatus: user.nick ? 'login' : null,
     user: user,
-    users: [
-
-    ]
+    users: []
 };
 
 const userReducer = (state = initState, action) => {
     switch(action.type) {
+        case 'DELETE_USER':
+            return {
+                ...state,
+                users: state.users.filter((user) => user._id !== action.payload)
+            };
+            break;
         case 'DOWNLOAD_USERS':
             return {
                 ...state,

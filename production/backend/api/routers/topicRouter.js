@@ -76,7 +76,7 @@ topicRouter.delete('/:id', checkAuth, verifyAdminOrAuthorTopic, (req, res, next)
     topicModel.findByIdAndRemove(id)
         .then((resold) => {
             res.status(201).json({
-                resold: resold
+                topic: resold
             });
         })
         .catch((err) => {

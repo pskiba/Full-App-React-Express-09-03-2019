@@ -2,20 +2,20 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 import downloadUsersAct from '../../redux/actions/userActions/downloadUsersAct';
-
-
 import User from './user';
 
 class UsersList extends Component {
+
     componentDidMount() {
         this.props.downloadUsers();
     }
+
     render() {
         const {users} = this.props;
         const usersHtml = users.length ? users.map((user) => <User user={user} key={user._id}/>) : '';
         return (
             <div className="container">
-                <h4>Users</h4>
+                <h5 className="center">USERS</h5>
                 <ul className="collection">
                     {usersHtml}
                 </ul>

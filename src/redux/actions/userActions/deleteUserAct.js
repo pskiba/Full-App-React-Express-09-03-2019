@@ -1,5 +1,5 @@
 const deleteUserAct = (dispatch, id) => {
-    const authorization = localStorage.getItem('token') ? localStorage.getItem('token') : '';
+    const authorization = sessionStorage.getItem('token') ? sessionStorage.getItem('token') : '';
     fetch('http://localhost:3000/api/user/' + id, {
             method: 'DELETE',
             headers: {
@@ -9,10 +9,10 @@ const deleteUserAct = (dispatch, id) => {
         })
         .then((response) => response.json())
         .then((response) => {
-            if(response) {
-
+            if(response && response.message === 'user was removed') {
+                dispatch({type: 'DELETE_USER', payload: id});
             }
-        })
+        });
 };
 
 export default deleteUserAct;

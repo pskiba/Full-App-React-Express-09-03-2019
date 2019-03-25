@@ -9,7 +9,9 @@ import TopicBare from './postBar';
 class PostList extends Component {
 
     constructor(props) {
+
         super(props);
+
         this.getPostsToDisplay = (posts) => {
             const newPosts = [...posts];
             if(newPosts.length > 10) {
@@ -33,6 +35,7 @@ class PostList extends Component {
         const postCreatorHtml = this.props.postCreatorIsOpen ? <PostCreator/> : '';
         return (
             <div className="container">
+                <h5 className="center">POSTS</h5>
                 {postCreatorHtml}
                 <TopicBare/>
                 {postHTML}

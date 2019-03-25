@@ -6,7 +6,6 @@ import deleteTopicAct from '../../redux/actions/topicActions/deleteTopicAct';
 import openTopicEditorAct from '../../redux/actions/topicActions/openTopicEditorAct';
 
 const topicBody = (props) => {
-
     const {topic, deleteTopic, openTopicEditor, setTopic} = props;
     const getDate = (date) => {
         return date;

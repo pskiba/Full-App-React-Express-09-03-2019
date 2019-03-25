@@ -11,7 +11,7 @@ const createTopicAct = (dispatch, data) => {
         .then((response) => response.json())
         .then((response) => {
             dispatch({type: 'CREATE_TOPIC', payload: response})
-        })
+        });
 };
 
 export default createTopicAct;

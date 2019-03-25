@@ -1,9 +1,9 @@
 const downloadUsersAct = (dispatch) => {
-    const authorization = localStorage.getItem('token') ? localStorage.getItem('token') : '';
+    const authorization = sessionStorage.getItem('token') ? sessionStorage.getItem('token') : '';
     fetch('http://localhost:3000/api/user/', {
             method: 'GET',
             headers: {
-                'Content-Type': 'applications/json',
+                'Content-Type': 'application/json',
                 'Authorization': authorization
             }
         })
@@ -12,7 +12,6 @@ const downloadUsersAct = (dispatch) => {
             if(response && response.users) {
                 dispatch({type: 'DOWNLOAD_USERS', payload: response.users});
             }
-
         });
 
 };

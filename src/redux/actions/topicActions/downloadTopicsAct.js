@@ -1,5 +1,4 @@
 const downloadTopicsAct = (dispatch) => {
-    const token = sessionStorage.getItem('token') ? sessionStorage.getItem('token') : '';
     fetch('http://localhost:3000/api/topic/', {
             method: 'GET',
         })

@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 const TopicAuthor = (props) => {
     const {topic} = props;
 

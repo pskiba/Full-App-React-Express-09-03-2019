@@ -97,7 +97,6 @@ postRouter.patch('/:id',checkAuth, verifyAdminOrAuthorPost, (req, res, next) => 
             date: new Date().getTime()
         }
     };
-    console.log(toUpdate);
     postModel.findOneAndUpdate({_id: id}, {$set: toUpdate})
         .then((record) => {
             if(record._id) {

@@ -10,8 +10,10 @@ const deleteTopicAct = (dispatch, data) => {
         })
         .then((response) => response.json())
         .then((response) => {
-            dispatch({type: 'DELETE_TOPIC', payload: data._id});
-        })
+            if(response && response.topic) {
+                dispatch({type: 'DELETE_TOPIC', payload: data._id});
+            }
+        });
 };
 
 export default deleteTopicAct

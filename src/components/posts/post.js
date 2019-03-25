@@ -6,7 +6,6 @@ import {connect} from 'react-redux';
 
 import '../../style/post.scss';
 
-
 class Post extends Component{
 
     render () {
@@ -20,7 +19,6 @@ class Post extends Component{
                         {postHTML}
                     </div>
                 </div>
-
             </div>
         )
     }

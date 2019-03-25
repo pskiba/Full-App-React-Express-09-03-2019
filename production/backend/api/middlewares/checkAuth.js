@@ -26,8 +26,6 @@ const verifyAdminOrAuthorPost = (req, res, next) => {
                 }
             })
     }
-
-
 };
 
 const verifyAdminOrAuthorTopic = (req, res, next) => {
@@ -43,12 +41,18 @@ const verifyAdminOrAuthorTopic = (req, res, next) => {
                 }
             })
     }
+};
 
+const verifyAdmin = (req, res, next) => {
+    if (req.userData.admin) {
+        next()
+    }
 };
 
 module.exports = {
     checkAuth: checkAuth,
     USER_JWT_KEY: USER_JWT_KEY,
+    verifyAdmin: verifyAdmin,
     verifyAdminOrAuthorPost: verifyAdminOrAuthorPost,
     verifyAdminOrAuthorTopic: verifyAdminOrAuthorTopic
 };

@@ -1,6 +1,5 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Link} from 'react-router-dom';
 
 import updateTopicAct from '../../redux/actions/topicActions/updateTopicAct';
 import closeTopicEditorAct from '../../redux/actions/topicActions/closeTopicEditorAct';

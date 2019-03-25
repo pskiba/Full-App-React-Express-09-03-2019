@@ -6,13 +6,13 @@ const config = () => {
         entry: {
            path: path.resolve(__dirname, 'src', 'index.js')
         },
-        output: {
-            publicPath: '/'
-        },
         // output: {
-        //     path: path.resolve(__dirname, 'production', 'dist'),
-        //     filename: '[name].js'
+        //     publicPath: '/'
         // },
+        output: {
+            path: path.resolve(__dirname, 'production', 'dist'),
+            filename: '[name].js'
+        },
         module: {
             rules: [
                 {

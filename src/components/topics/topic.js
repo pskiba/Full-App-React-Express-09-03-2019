@@ -15,7 +15,6 @@ const Topic = (props) => {
     return (
         <li className="collection-item topic" key={topic._id}>
             <div className="row">
-
                 {topicHTML}
                 <TopicAuthor topic={topic}/>
             </div>
@@ -28,6 +27,5 @@ const mapStateToProps = (state) => {
         topicEditorIsOpen: state.topic.topicEditorIsOpen
     }
 };
-
 
 export default connect(mapStateToProps)(Topic);

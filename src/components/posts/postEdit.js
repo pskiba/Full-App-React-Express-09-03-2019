@@ -5,6 +5,7 @@ import closePostEditorAct from '../../redux/actions/postActions/closePostEditorA
 import updatePostAct from '../../redux/actions/postActions/updatePostAct';
 
 const postEdit = (props) => {
+
     const { updatePost, closePostEditor, post} = props;
 
     const savePost = () => {

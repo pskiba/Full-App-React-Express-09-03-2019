@@ -23,9 +23,9 @@ const TopicBare = (props) => {
     const paginationItem = paginationNumber > 1 ? getPagination(paginationNumber) : '';
     const paginationHtml = paginationItem ? (
         <ul className="pagination right">
-            <li className="disabled"><a href="#">&#60;</a></li>
+            <li className="disabled"><a href="#" onClick={(e) => {e.preventDefault();}}>&#60;</a></li>
             {paginationItem}
-            <li className="waves-effect"><a href="#">&#62;</a></li>
+            <li className="waves-effect"><a href="#"  onClick={(e) => {e.preventDefault();}}>&#62;</a></li>
         </ul>) : '';
 
     return(
