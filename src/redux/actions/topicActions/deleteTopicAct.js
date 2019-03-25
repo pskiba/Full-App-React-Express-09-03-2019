@@ -1,6 +1,6 @@
 const deleteTopicAct = (dispatch, data) => {
     const authorization = sessionStorage.getItem('token') ? sessionStorage.getItem('token') : '';
-    fetch('http://localhost:3000/api/topic/' + data._id, {
+    fetch('./api/topic/' + data._id, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

@@ -1,5 +1,5 @@
 const downloadTopicsAct = (dispatch) => {
-    fetch('http://localhost:3000/api/topic/', {
+    fetch('./api/topic/', {
             method: 'GET',
         })
         .then((response) => response.json())

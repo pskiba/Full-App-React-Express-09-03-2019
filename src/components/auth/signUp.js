@@ -59,7 +59,7 @@ class SignUp extends Component {
                     </div>
                     <div className="field-container">
                         <label htmlFor="password">Password</label>
-                        <input type="text" id="password" onChange={this.handleChange}/>
+                        <input type="password" id="password" onChange={this.handleChange}/>
                     </div>
                     <div className="field-container">
                         <button type="submit">Sign Up</button>

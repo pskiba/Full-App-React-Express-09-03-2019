@@ -1,6 +1,6 @@
 const createNewPostAct = (dispatch, data) => {
     const authorization = sessionStorage.getItem('token') ? sessionStorage.getItem('token') : '';
-    fetch('http://localhost:3000/api/post', {
+    fetch('./api/post', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

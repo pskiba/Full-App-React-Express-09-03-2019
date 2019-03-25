@@ -1,6 +1,6 @@
 const downloadUsersAct = (dispatch) => {
     const authorization = sessionStorage.getItem('token') ? sessionStorage.getItem('token') : '';
-    fetch('http://localhost:3000/api/user/', {
+    fetch('./api/user/', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

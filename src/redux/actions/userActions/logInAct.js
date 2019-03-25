@@ -1,5 +1,5 @@
 const logInAct = (dispatch, data) => {
-    fetch('http://localhost:3000/api/user/login', {
+    fetch('./api/user/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
